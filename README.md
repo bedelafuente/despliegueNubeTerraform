@@ -1,70 +1,94 @@
-# 🚀 Infraestructura VirtualBox con Terraform
+<div align="center">
+  <h1>🚀 Infraestructura VirtualBox con Terraform</h1>
+  <p>
+    <strong>Aprovisionamiento automatizado de una máquina virtual ligera usando Infraestructura como Código (IaC).</strong>
+  </p>
 
-Este proyecto automatiza la creación y aprovisionamiento de una máquina virtual (VM) ligera utilizando **Terraform** y el proveedor de **VirtualBox**. El objetivo principal es desplegar un entorno de servidor estandarizado (Rocky Linux 9) mediante código (Infraestructura como Código - IaC), permitiendo configuraciones repetibles y aisladas.
+  <!-- Badges -->
+  <img src="https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white" alt="Terraform" />
+  <img src="https://img.shields.io/badge/VirtualBox-183A61?style=for-the-badge&logo=virtualbox&logoColor=white" alt="VirtualBox" />
+  <img src="https://img.shields.io/badge/Rocky%20Linux-10B981?style=for-the-badge&logo=rockylinux&logoColor=white" alt="Rocky Linux" />
+  <img src="https://img.shields.io/badge/IaC-Automation-FF9900?style=for-the-badge" alt="IaC" />
+</div>
 
----
+<br />
 
-## 🛠️ Tecnologías y Herramientas
+## 📖 Sobre el Proyecto
 
-*   **[Terraform](https://www.terraform.io/)**: Herramienta principal para orquestar y definir la infraestructura a través de su lenguaje declarativo (HCL).
-*   **[VirtualBox](https://www.virtualbox.org/)**: Hipervisor de escritorio utilizado para ejecutar la máquina virtual localmente.
-*   **[Rocky Linux 9](https://rockylinux.org/)**: Sistema operativo de la máquina virtual basado en formato Vagrant Box, optimizado para entornos de servidor.
-
----
-
-## 📂 Estructura del Proyecto
-
-*   `main.tf`: Archivo principal de configuración de Terraform. Define el proveedor (`eran132/vbox`) y las especificaciones técnicas de la máquina virtual (CPU, RAM, URL de la imagen, configuración de red, etc.).
-*   `.gitignore`: Filtra los archivos temporales de estado de Terraform (`.tfstate`), binarios y las pesadas imágenes de sistema operativo (`.box`) para mantener limpio el repositorio.
-
----
-
-## ⚙️ Características de la Máquina Virtual
-
-| Propiedad | Configuración | Descripción |
-| :--- | :--- | :--- |
-| **Nombre** | `rocky` | Identificador dentro del administrador de VirtualBox. |
-| **OS** | Rocky Linux 9 | Imagen optimizada descargada directamente desde repositorios oficiales. |
-| **CPU** | 1 Core | Suficiente para tareas básicas y servicios en segundo plano. |
-| **Memoria** | 512 MB | RAM asignada para funcionamiento en modo servidor. |
-| **Interfaz (GUI)** | Activada (`gui = true`) | Permite ver la ventana al iniciar para depuración o login manual. |
-| **Red** | NAT | Otorga internet a la VM aislando su tráfico de la red local. |
+Este proyecto automatiza la creación y configuración de una máquina virtual (VM) ligera utilizando **Terraform** y el proveedor de **VirtualBox**. El objetivo principal es desplegar un entorno de servidor estandarizado (Rocky Linux 9) mediante código, lo que permite crear infraestructuras de manera aislada, repetible y sin intervención manual.
 
 ---
 
-## 🚀 Guía de Uso Rápido
+## 🛠️ Tecnologías Utilizadas
 
-Sigue estos pasos para desplegar la infraestructura en tu entorno local:
+*   **[Terraform](https://www.terraform.io/)**: Orquestación y definición de la infraestructura mediante lenguaje declarativo (HCL).
+*   **[VirtualBox](https://www.virtualbox.org/)**: Hipervisor local para la ejecución de la máquina virtual.
+*   **[Rocky Linux 9](https://rockylinux.org/)**: Sistema operativo optimizado para servidores, utilizado en formato de Vagrant Box para un despliegue ágil.
 
-### 1. Inicializar Terraform
-Descarga los plugins y proveedores necesarios (`eran132/vbox`):
+---
+
+## 📂 Estructura del Repositorio
+
+| Archivo | Descripción |
+| :--- | :--- |
+| 📄 `main.tf` | Archivo principal de Terraform. Define el proveedor (`eran132/vbox`) y las especificaciones de la VM (CPU, RAM, red). |
+| 📄 `.gitignore` | Excluye del control de versiones el estado de Terraform (`.tfstate`), carpetas ocultas y archivos `.box` de gran tamaño. |
+
+---
+
+## ⚙️ Especificaciones de la Máquina Virtual
+
+La infraestructura definida aprovisionará una VM con las siguientes características:
+
+- **Nombre:** `rocky` (Identificador en VirtualBox).
+- **Sistema Operativo:** Rocky Linux 9.
+- **CPU:** 1 Core.
+- **Memoria RAM:** 512 MB (Suficiente para operaciones de servidor base).
+- **Red:** NAT (Permite conexión a Internet y acceso por SSH aislado).
+- **Interfaz (GUI):** Habilitada para facilitar la depuración visual.
+
+---
+
+## 🚀 Guía de Despliegue Rápido
+
+Sigue estos sencillos pasos para levantar el entorno en tu máquina local:
+
+### 1. Inicializar el entorno
+Descarga los plugins y proveedores necesarios para que Terraform pueda interactuar con VirtualBox.
 ```bash
 terraform init
 ```
 
-### 2. Revisar el Plan de Ejecución
-Verifica qué recursos se van a crear o modificar:
+### 2. Previsualizar cambios
+Revisa el plan de ejecución para confirmar los recursos que Terraform creará.
 ```bash
 terraform plan
 ```
 
-### 3. Aplicar la Configuración
-Inicia el proceso de creación y descarga de la imagen. *(Nota: La primera vez descargará un archivo de ~350MB, esto puede tomar un par de minutos dependiendo de tu conexión).*
+### 3. Aplicar configuración y desplegar
+Inicia el aprovisionamiento. *(Nota: La primera ejecución descargará la imagen base de Rocky Linux, lo cual puede tardar un par de minutos según tu conexión).*
 ```bash
 terraform apply
 ```
 
-> **🔑 Acceso a la VM:**  
-> Si la ventana te solicita inicio de sesión, las credenciales por defecto son:
-> * **Usuario**: `vagrant`
-> * **Contraseña**: `vagrant`
+> **🔑 Credenciales de Acceso:**  
+> Una vez iniciada la máquina virtual, si se requiere inicio de sesión, utiliza:
+> * **Usuario:** `vagrant`
+> * **Contraseña:** `vagrant`
 
 ---
 
-## 🧹 Limpieza
+## 🧹 Limpieza del Entorno
 
-Cuando termines de usar la máquina y quieras liberar espacio o destruirla, simplemente ejecuta:
+Cuando hayas finalizado tus pruebas, puedes destruir la infraestructura y liberar los recursos con un solo comando:
+
 ```bash
 terraform destroy
 ```
-*(Esto eliminará la máquina virtual de tu VirtualBox).*
+*(Esto eliminará permanentemente la máquina virtual de VirtualBox).*
+
+---
+
+<div align="center">
+  Hecho con ❤️ y automatización.
+</div>
